@@ -1,0 +1,1208 @@
+import React, { useState } from 'react';
+import { ChefHat, Clock, Leaf, Heart, Printer, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const RecipeEbook = () => {
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const recipes = [
+    {
+      title: "Abby's Daily Base Recipe",
+      category: "Daily Meals",
+      prepTime: "45 min",
+      servings: "7 days (30kg Lab)",
+      difficulty: "Easy",
+      ingredients: [
+        "2kg chicken thighs (with bone and skin)",
+        "500g beef liver",
+        "1kg mixed vegetables (carrots, broccoli, spinach, pumpkin)",
+        "1 dozen eggs",
+        "2 tbsp coconut oil",
+        "Fish oil supplement"
+      ],
+      instructions: [
+        "Place chicken thighs in large pot with water, bring to boil then simmer for 20 minutes",
+        "While chicken cooks, roughly chop vegetables",
+        "Steam vegetables for 10 minutes until tender",
+        "Remove cooked chicken, let cool slightly, then roughly chop (bones and all - they're soft and safe)",
+        "Dice beef liver into small pieces",
+        "Mix chicken, liver, and vegetables in large bowl",
+        "Add coconut oil and mix well",
+        "Portion into 7 containers (one per day)",
+        "Store 3-4 days worth in fridge, freeze the rest",
+        "Before serving: add fish oil pump and optional raw egg"
+      ],
+      tips: [
+        "Cooked bones are soft and completely digestible - never use raw weight-bearing bones",
+        "Rotate proteins weekly: turkey, beef, fish, lamb",
+        "Vegetables should be 10-15% of total meal",
+        "Each portion should be roughly 650-700g for a 30kg Lab"
+      ]
+    },
+    {
+      title: "Quick Turkey & Pumpkin Bowl",
+      category: "Daily Meals",
+      prepTime: "30 min",
+      servings: "5 days",
+      difficulty: "Easy",
+      ingredients: [
+        "1.5kg ground turkey",
+        "400g pumpkin puree",
+        "200g spinach (chopped)",
+        "3 raw eggs",
+        "1 tbsp apple cider vinegar",
+        "2 tbsp coconut oil"
+      ],
+      instructions: [
+        "Brown ground turkey in large pan (no need to fully cook - will finish when mixed)",
+        "Add chopped spinach to pan, wilt for 2-3 minutes",
+        "Remove from heat, add pumpkin puree and mix well",
+        "Crack eggs into mixture while still warm (but not hot), mix thoroughly",
+        "Add coconut oil and apple cider vinegar",
+        "Divide into 5 portions",
+        "Can be served immediately or refrigerate for up to 4 days"
+      ],
+      tips: [
+        "Turkey is lean - coconut oil adds needed fat",
+        "Pumpkin aids digestion and provides fiber",
+        "This is great for weight management",
+        "Raw eggs add biotin and extra protein"
+      ]
+    },
+    {
+      title: "Salmon & Sweet Potato Feast",
+      category: "Daily Meals",
+      prepTime: "40 min",
+      servings: "4 days",
+      difficulty: "Easy",
+      ingredients: [
+        "1kg fresh salmon (skin on)",
+        "300g sweet potato",
+        "200g green beans",
+        "100g carrots",
+        "2 tbsp olive oil",
+        "1 tsp turmeric powder"
+      ],
+      instructions: [
+        "Bake salmon at 180°C for 15-20 minutes until cooked through",
+        "Steam sweet potato cubes until tender (15 minutes)",
+        "Steam green beans and carrots (10 minutes)",
+        "Flake salmon (including skin) into large bowl",
+        "Mash sweet potato roughly",
+        "Mix all ingredients with olive oil and turmeric",
+        "Divide into 4 portions"
+      ],
+      tips: [
+        "Salmon skin is rich in omega-3s - don't remove it",
+        "Sweet potato is higher in carbs - use for active Labs only",
+        "This recipe is excellent for skin and coat health",
+        "Can substitute with mackerel or sardines"
+      ]
+    },
+    {
+      title: "Beef & Organ Meat Power Bowl",
+      category: "Daily Meals",
+      prepTime: "35 min",
+      servings: "6 days",
+      difficulty: "Medium",
+      ingredients: [
+        "1.5kg beef chunks (chuck or stew meat)",
+        "300g beef heart",
+        "200g beef liver",
+        "100g beef kidney",
+        "500g mixed vegetables (zucchini, broccoli, kale)",
+        "2 tbsp beef tallow or coconut oil"
+      ],
+      instructions: [
+        "Cut all meats into bite-sized pieces",
+        "Brown beef chunks in large pot",
+        "Add heart and cook for 10 minutes",
+        "Add roughly chopped vegetables",
+        "Add enough water to barely cover, simmer for 15 minutes",
+        "Remove from heat, add diced liver and kidney (cook with residual heat only)",
+        "Mix in beef tallow",
+        "Portion into 6 containers"
+      ],
+      tips: [
+        "Organ meats are incredibly nutrient-dense",
+        "Don't overcook liver - it becomes tough",
+        "This is vitamin and mineral rich - use weekly",
+        "The variety of organs provides complete nutrition"
+      ]
+    },
+    {
+      title: "White Fish & Veggie Blend",
+      category: "Weight Management",
+      prepTime: "25 min",
+      servings: "5 days",
+      difficulty: "Easy",
+      ingredients: [
+        "1.5kg white fish (cod, haddock, or tilapia)",
+        "400g green beans",
+        "200g zucchini",
+        "200g cauliflower",
+        "2 cups bone broth",
+        "1 tbsp fish oil"
+      ],
+      instructions: [
+        "Steam fish until cooked through (10-12 minutes)",
+        "Steam all vegetables until tender",
+        "Flake fish into bowl (check for bones)",
+        "Roughly chop vegetables",
+        "Mix fish, vegetables, and bone broth",
+        "Add fish oil once cooled",
+        "Portion into 5 servings"
+      ],
+      tips: [
+        "Very low calorie, high protein - perfect for weight loss",
+        "High vegetable ratio adds volume without calories",
+        "White fish is easily digestible",
+        "This keeps Labs feeling full longer"
+      ]
+    },
+    {
+      title: "Chicken & Egg Protein Boost",
+      category: "Daily Meals",
+      prepTime: "30 min",
+      servings: "4 days",
+      difficulty: "Easy",
+      ingredients: [
+        "1kg chicken breast",
+        "500g chicken hearts",
+        "6 hard-boiled eggs (with shells)",
+        "300g spinach",
+        "200g carrots",
+        "2 tbsp coconut oil"
+      ],
+      instructions: [
+        "Boil chicken breast and hearts together for 20 minutes",
+        "Hard boil eggs (12 minutes)",
+        "Steam spinach and grated carrots",
+        "Chop chicken and hearts into bite-sized pieces",
+        "Peel eggs, crush shells into fine powder, chop eggs",
+        "Mix all ingredients with coconut oil",
+        "Divide into 4 portions"
+      ],
+      tips: [
+        "Chicken hearts are rich in taurine and CoQ10",
+        "Crushed eggshells provide natural calcium",
+        "This is excellent for muscle maintenance",
+        "Very lean - good for weight management with added oil"
+      ]
+    },
+    {
+      title: "Lamb & Root Vegetable Stew",
+      category: "Daily Meals",
+      prepTime: "50 min",
+      servings: "6 days",
+      difficulty: "Medium",
+      ingredients: [
+        "1.5kg lamb chunks",
+        "300g lamb liver",
+        "400g carrots",
+        "200g parsnips",
+        "200g pumpkin",
+        "3 cups bone broth",
+        "1 tbsp rosemary (fresh)"
+      ],
+      instructions: [
+        "Brown lamb chunks in large pot",
+        "Add chopped root vegetables and pumpkin",
+        "Add bone broth and rosemary",
+        "Simmer for 30 minutes until lamb is tender",
+        "Add diced liver in last 5 minutes",
+        "Let cool, then portion",
+        "Can freeze for up to 3 months"
+      ],
+      tips: [
+        "Lamb is rich in zinc and B vitamins",
+        "Great for Labs who are reactive to chicken",
+        "Root vegetables provide natural sweetness",
+        "This is a warming, nutritious winter meal"
+      ]
+    },
+    {
+      title: "Turkey Neck & Veggie Crunch",
+      category: "Daily Meals",
+      prepTime: "40 min",
+      servings: "5 days",
+      difficulty: "Easy",
+      ingredients: [
+        "1.5kg turkey necks",
+        "300g ground turkey",
+        "400g mixed vegetables (broccoli, carrots, green beans)",
+        "2 raw eggs",
+        "1 tbsp apple cider vinegar"
+      ],
+      instructions: [
+        "Simmer turkey necks in water for 30 minutes until bones are soft",
+        "Brown ground turkey separately",
+        "Steam vegetables",
+        "Chop cooked turkey necks (soft bones included)",
+        "Mix all meats and vegetables",
+        "Add raw eggs and apple cider vinegar",
+        "Portion into 5 servings"
+      ],
+      tips: [
+        "Turkey necks provide excellent calcium from soft bones",
+        "Great for dental health and jaw strengthening",
+        "The bones should be completely soft after cooking",
+        "This provides a natural teeth-cleaning texture"
+      ]
+    },
+    {
+      title: "Sardine Superfood Bowl",
+      category: "Daily Meals",
+      prepTime: "15 min",
+      servings: "3 days",
+      difficulty: "Very Easy",
+      ingredients: [
+        "12 whole sardines (fresh or canned in water)",
+        "400g sweet potato (cooked and mashed)",
+        "200g kale (steamed)",
+        "3 raw eggs",
+        "2 tbsp olive oil",
+        "1 tsp kelp powder"
+      ],
+      instructions: [
+        "If using fresh sardines, grill or bake for 10 minutes",
+        "Mash sweet potato",
+        "Steam and chop kale",
+        "Flake sardines (bones and all - they're small and soft)",
+        "Mix all ingredients including raw eggs",
+        "Add olive oil and kelp powder",
+        "Divide into 3 portions"
+      ],
+      tips: [
+        "Sardines are omega-3 powerhouses",
+        "Whole small fish provide complete nutrition",
+        "Kelp adds natural iodine for thyroid health",
+        "This is excellent for skin and coat"
+      ]
+    },
+    {
+      title: "Elimination Diet: Single Protein (Turkey)",
+      category: "Therapeutic",
+      prepTime: "30 min",
+      servings: "7 days",
+      difficulty: "Easy",
+      ingredients: [
+        "2kg ground turkey (or turkey thighs)",
+        "400g zucchini",
+        "300g pumpkin",
+        "200g green beans",
+        "2 tbsp coconut oil",
+        "Fish oil supplement"
+      ],
+      instructions: [
+        "Brown ground turkey (or simmer turkey thighs)",
+        "Steam all vegetables until very soft",
+        "If using thighs, remove meat from bones (save bones for broth)",
+        "Chop or pulse vegetables in food processor (easier to digest)",
+        "Mix turkey and vegetables with coconut oil",
+        "Portion into 7 servings",
+        "Add fish oil only when serving"
+      ],
+      tips: [
+        "Use ONLY if your Lab has never eaten turkey before",
+        "Feed NOTHING else for 6-8 weeks",
+        "No treats, no flavored medications, no extras",
+        "Track symptoms daily to identify food sensitivities",
+        "This is for diagnostic purposes - not long-term"
+      ]
+    },
+    {
+      title: "Joint Support Healing Bowl",
+      category: "Therapeutic",
+      prepTime: "60 min",
+      servings: "7 days",
+      difficulty: "Medium",
+      ingredients: [
+        "1.5kg chicken feet (or wings with bones)",
+        "500g beef chunks",
+        "300g beef liver",
+        "500g mixed vegetables",
+        "4 cups bone broth (homemade)",
+        "2 tbsp turmeric golden paste",
+        "1 tbsp gelatin powder"
+      ],
+      instructions: [
+        "Simmer chicken feet in water for 45 minutes (creates natural gelatin)",
+        "Brown beef chunks separately",
+        "Steam vegetables",
+        "Remove meat from chicken feet (bones will be very soft)",
+        "Mix all meats, vegetables, and bone broth",
+        "Stir in turmeric paste and gelatin powder while warm",
+        "Portion into 7 servings"
+      ],
+      tips: [
+        "Gelatin and collagen support joint cartilage",
+        "Turmeric reduces inflammation",
+        "Chicken feet are rich in glucosamine",
+        "This is excellent for Labs with arthritis or dysplasia"
+      ]
+    },
+    {
+      title: "Gut Healing Protocol Bowl",
+      category: "Therapeutic",
+      prepTime: "45 min",
+      servings: "5 days",
+      difficulty: "Medium",
+      ingredients: [
+        "1kg ground turkey or chicken",
+        "400g pumpkin puree",
+        "200g bone broth",
+        "100g plain kefir or yogurt",
+        "2 tbsp L-glutamine powder",
+        "1 tbsp slippery elm powder",
+        "2 tbsp coconut oil"
+      ],
+      instructions: [
+        "Lightly cook ground meat (don't brown heavily)",
+        "Mix in pumpkin puree while warm",
+        "Add bone broth to create moist consistency",
+        "Once cooled to room temperature, add kefir",
+        "Mix in L-glutamine and slippery elm",
+        "Add coconut oil",
+        "Portion into 5 servings"
+      ],
+      tips: [
+        "Pumpkin and slippery elm soothe digestive tract",
+        "L-glutamine heals gut lining",
+        "Kefir provides probiotics",
+        "Feed at room temperature - not cold from fridge",
+        "Use during digestive upset or after antibiotics"
+      ]
+    },
+    {
+      title: "Slow Cooker Beef Bone Broth",
+      category: "Additions & Supplements",
+      prepTime: "24 hours",
+      servings: "Multiple batches",
+      difficulty: "Very Easy",
+      ingredients: [
+        "2kg beef bones (marrow and knuckle bones)",
+        "2 chicken feet (optional, adds gelatin)",
+        "2 tbsp apple cider vinegar",
+        "Water to cover",
+        "Optional: carrot and celery scraps"
+      ],
+      instructions: [
+        "Place bones in slow cooker",
+        "Add apple cider vinegar (helps extract minerals)",
+        "Fill with water to cover bones by 2 inches",
+        "Cook on low for 24 hours",
+        "Strain through cheesecloth",
+        "Let cool - should gel when refrigerated",
+        "Portion into ice cube trays or containers",
+        "Freeze for up to 3 months"
+      ],
+      tips: [
+        "Gelatin content supports gut healing and joint health",
+        "Add 2-3 tablespoons to daily meals",
+        "Can be used as base for cooking meat",
+        "Rich in minerals and collagen",
+        "The longer it cooks, the more nutritious"
+      ]
+    },
+    {
+      title: "Liver Training Treats",
+      category: "Treats & Snacks",
+      prepTime: "2 hours",
+      servings: "100+ treats",
+      difficulty: "Easy",
+      ingredients: [
+        "500g beef or chicken liver",
+        "1 tbsp coconut oil (for baking sheet)"
+      ],
+      instructions: [
+        "Preheat oven to 120°C",
+        "Slice liver into thin strips (5mm thick)",
+        "Arrange on greased baking sheet in single layer",
+        "Bake for 2 hours until completely dried and crispy",
+        "Let cool completely",
+        "Break into small pieces",
+        "Store in airtight container in fridge (up to 2 weeks)"
+      ],
+      tips: [
+        "These are incredibly high-value training treats",
+        "Very nutrient-dense - use sparingly",
+        "Can also use heart or kidney",
+        "Completely natural with no additives",
+        "Strong smell - dogs go crazy for these"
+      ]
+    },
+    {
+      title: "Frozen Bone Broth Cubes",
+      category: "Additions & Supplements",
+      prepTime: "5 min (+ freezing time)",
+      servings: "Variable",
+      difficulty: "Very Easy",
+      ingredients: [
+        "4 cups homemade bone broth",
+        "Optional: 2 tbsp plain kefir per cup",
+        "Optional: 1 tsp turmeric per cup"
+      ],
+      instructions: [
+        "Mix bone broth with optional additions",
+        "Pour into ice cube trays",
+        "Freeze completely",
+        "Pop out and store in freezer bag",
+        "Add 2-3 cubes to meals",
+        "Can also be given as cooling treat"
+      ],
+      tips: [
+        "Perfect for summer cooling",
+        "Adds hydration to meals",
+        "Provides joint-supporting collagen",
+        "Kefir adds probiotics",
+        "Great for teething puppies"
+      ]
+    },
+    {
+      title: "Turmeric Golden Paste",
+      category: "Additions & Supplements",
+      prepTime: "15 min",
+      servings: "2 weeks",
+      difficulty: "Easy",
+      ingredients: [
+        "1/2 cup organic turmeric powder",
+        "1 cup filtered water",
+        "1/3 cup coconut oil",
+        "2-3 tsp black pepper (freshly ground)"
+      ],
+      instructions: [
+        "Mix turmeric powder and water in small saucepan",
+        "Stir constantly over medium heat for 7-10 minutes",
+        "Mixture should form thick paste",
+        "Remove from heat",
+        "Stir in coconut oil until melted",
+        "Add black pepper and mix well",
+        "Let cool completely",
+        "Store in glass jar in refrigerator (up to 2 weeks)"
+      ],
+      tips: [
+        "Black pepper increases curcumin absorption by 2000%",
+        "Coconut oil makes curcumin more bioavailable",
+        "Use 1/4 tsp per 10kg body weight",
+        "Powerful anti-inflammatory",
+        "Can stain - be careful with carpets!"
+      ]
+    },
+    {
+      title: "Fermented Vegetable Blend",
+      category: "Additions & Supplements",
+      prepTime: "15 min (+ 5-7 days fermenting)",
+      servings: "30 days",
+      difficulty: "Medium",
+      ingredients: [
+        "500g mixed vegetables (cabbage, carrots, zucchini)",
+        "2 tbsp sea salt",
+        "1 cup filtered water",
+        "Optional: 1 clove garlic"
+      ],
+      instructions: [
+        "Finely chop or grate all vegetables",
+        "Mix salt with water to create brine",
+        "Pack vegetables tightly into glass jar",
+        "Pour brine over vegetables (must be covered)",
+        "Add garlic if using",
+        "Cover with cloth secured with rubber band",
+        "Leave at room temperature for 5-7 days",
+        "Taste daily - should be tangy",
+        "Refrigerate once fermented - lasts 2 months"
+      ],
+      tips: [
+        "Excellent source of natural probiotics",
+        "Start with 1 tsp per meal, increase gradually",
+        "Some Labs love the tangy taste",
+        "Rich in beneficial bacteria for gut health",
+        "Make sure vegetables stay submerged in brine"
+      ]
+    },
+    {
+      title: "Emergency Quick Meal (When You're Out of Prep)",
+      category: "Quick Solutions",
+      prepTime: "10 min",
+      servings: "1 day",
+      difficulty: "Very Easy",
+      ingredients: [
+        "4-6 raw eggs",
+        "1 can sardines in water",
+        "1 cup plain yogurt or kefir",
+        "2 tbsp coconut oil",
+        "1/2 cup leftover cooked vegetables (if available)"
+      ],
+      instructions: [
+        "Crack eggs into bowl (shells and all - crush shells)",
+        "Add sardines with liquid",
+        "Mix in yogurt",
+        "Add coconut oil",
+        "Stir in any vegetables",
+        "Divide into 2 portions (breakfast and dinner)",
+        "Serve immediately"
+      ],
+      tips: [
+        "This is complete nutrition in a pinch",
+        "Not ideal long-term but excellent emergency meal",
+        "Eggs provide protein and fat",
+        "Sardines add omega-3s",
+        "Yogurt provides probiotics",
+        "Better than one day of kibble!"
+      ]
+    }
+  ];
+
+  const tips = [
+    {
+      title: "Batch Cooking Tips",
+      icon: "🍲",
+      content: [
+        "Cook once, feed for a week - use Sunday prep session",
+        "Invest in good storage containers - glass is best",
+        "Label containers with date and protein type",
+        "Freeze meals in portions - thaw day before in fridge",
+        "Keep 3-4 days in fridge, rest in freezer",
+        "Use slow cooker for hands-off cooking",
+        "Double recipes when you have time - freeze extras"
+      ]
+    },
+    {
+      title: "Food Safety",
+      icon: "🧊",
+      content: [
+        "Wash hands before and after handling raw meat",
+        "Clean all surfaces and bowls thoroughly",
+        "Don't leave food out for more than 30 minutes",
+        "Thaw frozen meals in refrigerator, never room temperature",
+        "Discard any meals that smell off",
+        "Keep separate cutting boards for dog food prep",
+        "Meat should be consumed within 4 days if refrigerated"
+      ]
+    },
+    {
+      title: "Portion Sizing Guide",
+      icon: "⚖️",
+      content: [
+        "Feed 2-3% of ideal body weight daily (not current weight if overweight)",
+        "30kg Lab = approximately 600-900g fresh food daily",
+        "Divide into 2 meals (morning and evening)",
+        "Adjust based on body condition - should easily feel ribs",
+        "Active Labs may need more, sedentary Labs less",
+        "Puppies need more (up to 5% of body weight)",
+        "Seniors may need slightly less"
+      ]
+    },
+    {
+      title: "Protein Rotation Schedule",
+      icon: "🔄",
+      content: [
+        "Week 1: Chicken-based meals",
+        "Week 2: Fish-based meals",
+        "Week 3: Beef-based meals",
+        "Week 4: Turkey or lamb-based meals",
+        "Never feed the same protein every day",
+        "Rotation prevents food sensitivities",
+        "Ensures complete amino acid profile",
+        "Provides variety of nutrients"
+      ]
+    },
+    {
+      title: "Vegetable Preparation",
+      icon: "🥕",
+      content: [
+        "Steam vegetables lightly - not raw",
+        "Puree or chop finely for better digestion",
+        "Dogs can't break down plant cell walls well",
+        "Vegetables should be 10-15% of total meal",
+        "Best choices: leafy greens, cruciferous veggies, pumpkin",
+        "Avoid: onions, garlic (in large amounts), grapes, avocado",
+        "Fermented vegetables provide additional benefits"
+      ]
+    },
+    {
+      title: "Bone Safety Rules",
+      icon: "🦴",
+      content: [
+        "NEVER feed cooked weight-bearing bones (beef, pork, lamb leg bones)",
+        "Safe: raw chicken/turkey necks, wings, thighs with bones",
+        "Safe: cooked chicken/turkey bones ONLY if simmered until soft",
+        "Cooked bones should break apart easily in your hands",
+        "Always supervise when giving any bones",
+        "If your Lab gulps food, grind bones or use bone meal",
+        "Bones provide calcium - essential for balanced diet"
+      ]
+    },
+    {
+      title: "Supplement Integration",
+      icon: "💊",
+      content: [
+        "Add fish oil at serving time (not during cooking - heat damages it)",
+        "Probiotics work best on empty stomach or with minimal food",
+        "Digestive enzymes should be added with meals",
+        "Turmeric paste: 1/4 tsp per 10kg with black pepper",
+        "Start all supplements gradually",
+        "Store fish oil in refrigerator in dark bottle",
+        "Quality matters - cheap supplements don't work"
+      ]
+    },
+    {
+      title: "Transition Timeline",
+      icon: "📅",
+      content: [
+        "Week 1: 75% old food, 25% fresh food",
+        "Week 2: 50% old food, 50% fresh food",
+        "Week 3: 25% old food, 75% fresh food",
+        "Week 4: 100% fresh food",
+        "Some Labs tolerate faster transition",
+        "Watch for: loose stools (slow down if this happens)",
+        "Add probiotics during transition",
+        "Increased thirst is normal (fresh food has more water)"
+      ]
+    },
+    {
+      title: "Budget-Friendly Tips",
+      icon: "💰",
+      content: [
+        "Buy chicken quarters/thighs on sale - freeze bulk",
+        "Ask butcher for organ meats (often cheap or free)",
+        "Whole fish are cheaper than fillets",
+        "Vegetable scraps from your cooking can be used",
+        "Eggs are affordable complete protein",
+        "Buy meat in bulk and freeze",
+        "Ground meat is often cheaper than cuts",
+        "Making bone broth uses inexpensive bones"
+      ]
+    },
+    {
+      title: "Storage Solutions",
+      icon: "📦",
+      content: [
+        "Glass containers don't absorb odors (worth the investment)",
+        "Ice cube trays for bone broth and supplements",
+        "Silicone muffin tins for individual portions",
+        "Label everything with contents and date",
+        "Dedicate one shelf of freezer to dog food",
+        "Vacuum sealer extends freezer life to 6 months",
+        "Keep thawing meals on bottom shelf of fridge (no drips)"
+      ]
+    },
+    {
+      title: "Travel & Emergency Prep",
+      icon: "✈️",
+      content: [
+        "Freeze dried raw food for travel (just add water)",
+        "Pack bone broth cubes in cooler",
+        "Always have canned sardines/salmon as backup",
+        "Eggs travel well and are available everywhere",
+        "Keep frozen meals for emergencies",
+        "Plain cooked chicken from grocery rotisserie works in pinch",
+        "Some high-quality kibble as absolute last resort"
+      ]
+    },
+    {
+      title: "Signs of Good Nutrition",
+      icon: "✅",
+      content: [
+        "Shiny, thick coat that doesn't shed excessively",
+        "Bright, clear eyes with 'light behind them'",
+        "Small, firm stools (1-2 per day)",
+        "Healthy weight (easily feel ribs, visible waist)",
+        "Consistent energy throughout the day",
+        "Clean teeth with minimal tartar",
+        "No chronic ear infections or skin issues",
+        "Calm, balanced behavior"
+      ]
+    }
+  ];
+
+  const pages = [
+    { type: 'cover', content: null },
+    { type: 'intro', content: null },
+    ...recipes.map(recipe => ({ type: 'recipe', content: recipe })),
+    { type: 'tips-intro', content: null },
+    ...tips.map(tip => ({ type: 'tip', content: tip })),
+    { type: 'conclusion', content: null }
+  ];
+
+  const renderCover = () => (
+    <div className="h-full flex flex-col items-center justify-center p-8 bg-gradient-to-br from-amber-50 to-orange-50">
+      <ChefHat className="w-24 h-24 text-amber-600 mb-6" />
+      <h1 className="text-5xl font-bold text-gray-800 text-center mb-4">Beyond Kibble</h1>
+      <h2 className="text-3xl text-amber-700 text-center mb-8">Recipe & Tips Companion</h2>
+      <div className="text-center text-gray-600 mb-8">
+        <p className="text-xl mb-2">18 Complete Recipes</p>
+        <p className="text-xl mb-2">12 Essential Tip Sections</p>
+        <p className="text-lg">Your Practical Guide to Fresh Food for Labs</p>
+      </div>
+      <div className="mt-8 text-center">
+        <p className="text-gray-500 italic">By Elena Notte</p>
+        <p className="text-gray-500 mt-2">Companion to "Beyond Kibble"</p>
+      </div>
+    </div>
+  );
+
+  const renderIntro = () => (
+    <div className="h-full p-8 overflow-y-auto">
+      <h2 className="text-3xl font-bold text-amber-700 mb-6">Welcome to Your Recipe Companion</h2>
+      <div className="prose prose-lg">
+        <p className="mb-4">
+          Dear Reader,
+        </p>
+        <p className="mb-4">
+          When I wrote "Beyond Kibble," I knew that theory without practice would leave many of you standing in your kitchen, overwhelmed and uncertain. This companion e-book is the answer to that concern.
+        </p>
+        <p className="mb-4">
+          Here you'll find 18 complete recipes that Abby and I have tested and refined over three years. These aren't complicated chef creations - they're practical, affordable, and designed for real life.
+        </p>
+        
+        <div className="bg-amber-50 p-6 rounded-lg my-6">
+          <h3 className="text-xl font-bold text-amber-800 mb-3">What You'll Find Inside:</h3>
+          <ul className="space-y-2">
+            <li><strong>Daily Meals:</strong> 9 recipes you can rotate throughout the week</li>
+            <li><strong>Therapeutic Protocols:</strong> 3 specialized recipes for healing</li>
+            <li><strong>Additions & Supplements:</strong> 4 recipes for bone broth, treats, and golden paste</li>
+            <li><strong>Quick Solutions:</strong> 2 emergency meals when life gets hectic</li>
+            <li><strong>Essential Tips:</strong> 12 sections covering everything from batch cooking to food safety</li>
+          </ul>
+        </div>
+
+        <p className="mb-4">
+          Each recipe includes prep time, difficulty level, complete ingredient lists, step-by-step instructions, and practical tips I've learned through experience.
+        </p>
+
+        <div className="bg-green-50 p-6 rounded-lg my-6">
+          <h3 className="text-xl font-bold text-green-800 mb-3">How to Use This E-Book:</h3>
+          <ol className="space-y-2 list-decimal list-inside">
+            <li>Start with the "Daily Meals" section - choose 2-3 recipes to rotate</li>
+            <li>Make the Bone Broth and Turmeric Golden Paste - keep them on hand</li>
+            <li>Read through all the tips sections - they'll save you time and money</li>
+            <li>Use the Therapeutic recipes when specific issues arise</li>
+            <li>Bookmark your favorites and adjust to your Lab's preferences</li>
+          </ol>
+        </div>
+
+        <p className="mb-4">
+          Remember: These recipes are starting points. Every Lab is unique. Pay attention to your dog's body, energy, and stool quality. Adjust portions and ingredients based on what you observe.
+        </p>
+
+        <p className="mb-4">
+          The goal isn't perfection. The goal is progress - moving from processed food to real food, one meal at a time.
+        </p>
+
+        <p className="mb-4">
+          You've got this. And Abby and I are cheering you on.
+        </p>
+
+        <p className="mt-8 italic">
+          With love and solidarity in the revolution,<br/>
+          Elena Notte
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderRecipe = (recipe) => (
+    <div className="h-full p-8 overflow-y-auto">
+      <div className="mb-6">
+        <span className="inline-block px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm font-semibold mb-3">
+          {recipe.category}
+        </span>
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">{recipe.title}</h2>
+        
+        <div className="flex gap-6 text-sm text-gray-600 mb-6">
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4" />
+            <span>{recipe.prepTime}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <ChefHat className="w-4 h-4" />
+            <span>{recipe.difficulty}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Leaf className="w-4 h-4" />
+            <span>{recipe.servings}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-gray-800 mb-3">Ingredients</h3>
+        <ul className="space-y-2">
+          {recipe.ingredients.map((ingredient, idx) => (
+            <li key={idx} className="flex items-start gap-2">
+              <span className="text-amber-600 mt-1">•</span>
+              <span>{ingredient}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-gray-800 mb-3">Instructions</h3>
+        <ol className="space-y-3">
+          {recipe.instructions.map((instruction, idx) => (
+            <li key={idx} className="flex items-start gap-3">
+              <span className="flex-shrink-0 w-6 h-6 bg-amber-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                {idx + 1}
+              </span>
+              <span className="pt-0.5">{instruction}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="bg-blue-50 p-6 rounded-lg">
+        <h3 className="text-lg font-bold text-blue-800 mb-3 flex items-center gap-2">
+          <Heart className="w-5 h-5" />
+          Elena's Tips
+        </h3>
+        <ul className="space-y-2">
+          {recipe.tips.map((tip, idx) => (
+            <li key={idx} className="flex items-start gap-2 text-sm">
+              <span className="text-blue-600 mt-1">✓</span>
+              <span>{tip}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+
+  const renderTipsIntro = () => (
+    <div className="h-full p-8 overflow-y-auto flex flex-col items-center justify-center">
+      <BookOpen className="w-20 h-20 text-amber-600 mb-6" />
+      <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center">Essential Tips & Guides</h2>
+      <p className="text-xl text-gray-600 text-center max-w-2xl mb-8">
+        The following sections contain practical wisdom gathered from three years of fresh food feeding. 
+        These tips will save you time, money, and mistakes.
+      </p>
+      <div className="grid grid-cols-2 gap-4 max-w-2xl">
+        <div className="bg-amber-50 p-4 rounded-lg text-center">
+          <p className="font-bold text-amber-800">12 Tip Categories</p>
+        </div>
+        <div className="bg-green-50 p-4 rounded-lg text-center">
+          <p className="font-bold text-green-800">Practical Advice</p>
+        </div>
+        <div className="bg-blue-50 p-4 rounded-lg text-center">
+          <p className="font-bold text-blue-800">Real Experience</p>
+        </div>
+        <div className="bg-orange-50 p-4 rounded-lg text-center">
+          <p className="font-bold text-orange-800">Time Savers</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTip = (tip) => (
+    <div className="h-full p-8 overflow-y-auto">
+      <div className="mb-6">
+        <div className="text-6xl mb-4">{tip.icon}</div>
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">{tip.title}</h2>
+      </div>
+
+      <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-lg">
+        <ul className="space-y-4">
+          {tip.content.map((item, idx) => (
+            <li key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg shadow-sm">
+              <span className="flex-shrink-0 w-8 h-8 bg-amber-600 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                {idx + 1}
+              </span>
+              <span className="pt-1 text-gray-700">{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {tip.title === "Budget-Friendly Tips" && (
+        <div className="mt-6 bg-green-50 p-6 rounded-lg">
+          <h3 className="font-bold text-green-800 mb-3">Cost Comparison:</h3>
+          <p className="text-sm text-gray-700 mb-2">
+            Premium kibble: €2.07/day + vet costs €3.50/day = €5.57/day
+          </p>
+          <p className="text-sm text-gray-700 mb-2">
+            Fresh food (budget-conscious): €3.50/day + minimal vet costs €0.30/day = €3.80/day
+          </p>
+          <p className="text-sm font-bold text-green-800 mt-4">
+            Savings: €1.77/day = €646/year while improving health!
+          </p>
+        </div>
+      )}
+
+      {tip.title === "Signs of Good Nutrition" && (
+        <div className="mt-6 bg-red-50 p-6 rounded-lg">
+          <h3 className="font-bold text-red-800 mb-3">Warning Signs (See Your Vet):</h3>
+          <ul className="space-y-1 text-sm text-gray-700">
+            <li>• Sudden weight loss or gain</li>
+            <li>• Chronic diarrhea (more than 2 days)</li>
+            <li>• Vomiting multiple times</li>
+            <li>• Lethargy that doesn't improve</li>
+            <li>• Loss of appetite for more than 24 hours</li>
+            <li>• Any concerning behavioral changes</li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderConclusion = () => (
+    <div className="h-full p-8 overflow-y-auto">
+      <h2 className="text-3xl font-bold text-amber-700 mb-6">Your Journey Begins Now</h2>
+      
+      <div className="prose prose-lg">
+        <p className="mb-4">
+          You've reached the end of this companion guide, but really, you're at the beginning of something transformative.
+        </p>
+
+        <p className="mb-4">
+          Three years ago, I stood in my kitchen exactly where you might be standing now - uncertain, overwhelmed, questioning whether I could really do this.
+        </p>
+
+        <p className="mb-4">
+          Today, Abby is thriving. Not managing symptoms. Not surviving on medications. Thriving.
+        </p>
+
+        <div className="bg-amber-50 p-6 rounded-lg my-6">
+          <h3 className="text-xl font-bold text-amber-800 mb-3">Your First Week Action Plan:</h3>
+          <ol className="space-y-3 list-decimal list-inside">
+            <li><strong>Day 1:</strong> Read through all recipes, choose 2-3 that feel manageable</li>
+            <li><strong>Day 2:</strong> Shop for ingredients (start simple - chicken and vegetables)</li>
+            <li><strong>Day 3:</strong> Make your first batch - "Abby's Daily Base Recipe" is perfect</li>
+            <li><strong>Day 4-7:</strong> Begin transition - 75% old food, 25% fresh food</li>
+            <li><strong>Week 2:</strong> Increase to 50/50, make bone broth</li>
+            <li><strong>Week 3:</strong> Up to 75% fresh food, make golden paste</li>
+            <li><strong>Week 4:</strong> 100% fresh food, celebrate your success!</li>
+          </ol>
+        </div>
+
+        <p className="mb-4">
+          Remember these truths:
+        </p>
+
+        <ul className="space-y-2 mb-6">
+          <li className="flex items-start gap-2">
+            <span className="text-amber-600 font-bold">•</span>
+            <span>You don't need to be perfect. Progress over perfection.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-amber-600 font-bold">•</span>
+            <span>Your Lab's body will tell you if you're on the right track.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-amber-600 font-bold">•</span>
+            <span>Every fresh meal is infinitely better than kibble.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-amber-600 font-bold">•</span>
+            <span>You are capable of this. Trust yourself.</span>
+          </li>
+        </ul>
+
+        <div className="bg-green-50 p-6 rounded-lg my-6">
+          <h3 className="text-xl font-bold text-green-800 mb-3">Track Your Progress:</h3>
+          <p className="mb-3">Take photos and notes today, then again in 30, 60, and 90 days:</p>
+          <ul className="space-y-1 text-sm">
+            <li>• Coat condition and shine</li>
+            <li>• Energy levels throughout the day</li>
+            <li>• Stool quality and frequency</li>
+            <li>• Any skin issues or ear problems</li>
+            <li>• Body weight and condition</li>
+            <li>• Overall happiness and engagement</li>
+          </ul>
+          <p className="mt-3 text-sm italic">You'll be amazed at the transformation.</p>
+        </div>
+
+        <p className="mb-4">
+          This isn't just about food. This is about reclaiming your sovereignty. Trusting your judgment. Remembering that you are nature, your Lab is nature, and nature knows how to heal when given what it needs.
+        </p>
+
+        <p className="mb-4">
+          The industrial system wants you dependent, uncertain, afraid to trust yourself.
+        </p>
+
+        <p className="mb-4">
+          But you're reading this, which means you're already questioning. Already thinking differently. Already choosing a different path.
+        </p>
+
+        <p className="mb-6 text-xl font-bold text-gray-800">
+          Welcome to the vitality revolution.
+        </p>
+
+        <div className="border-t-2 border-amber-200 pt-6 mt-8">
+          <p className="mb-4">
+            If you haven't yet read the main book "Beyond Kibble," these recipes will make even more sense in the context of the complete health approach outlined there.
+          </p>
+
+          <p className="mb-4">
+            And if you've read it, you now have everything you need: the why, the how, and the practical recipes to make it happen.
+          </p>
+
+          <p className="mb-6">
+            The only thing left is to begin.
+          </p>
+
+          <p className="text-center text-gray-600 italic mb-2">
+            Your Lab is waiting for the vitality that's always been their birthright.
+          </p>
+
+          <p className="text-center text-gray-600 italic mb-8">
+            Give it to them. One meal at a time.
+          </p>
+
+          <p className="text-center font-bold text-amber-700 text-xl">
+            For health. For vitality. For life.
+          </p>
+
+          <p className="text-center text-gray-500 italic mt-8">
+            — Elena Notte<br/>
+            With Abby, always
+          </p>
+        </div>
+
+        <div className="bg-blue-50 p-6 rounded-lg mt-8">
+          <h3 className="text-lg font-bold text-blue-800 mb-3">Resources & Reminders:</h3>
+          <ul className="space-y-2 text-sm">
+            <li>• Keep the main book "Beyond Kibble" as your reference guide</li>
+            <li>• Join online communities of fresh food feeders for support</li>
+            <li>• Find a holistic vet who supports this approach</li>
+            <li>• Trust your observations over any expert who dismisses them</li>
+            <li>• Share your success - help other Lab parents discover this path</li>
+            <li>• Remember: you are nature, your Lab is nature, healing is natural</li>
+          </ul>
+        </div>
+
+        <div className="text-center mt-12 p-8 bg-gradient-to-br from-amber-50 to-orange-50 rounded-lg">
+          <Heart className="w-16 h-16 text-amber-600 mx-auto mb-4" />
+          <p className="text-2xl font-bold text-gray-800 mb-2">
+            Thank You
+          </p>
+          <p className="text-gray-600">
+            For loving your Lab enough to question everything.<br/>
+            For trusting yourself.<br/>
+            For joining the revolution.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const currentPageData = pages[currentPage];
+  
+  const nextPage = () => {
+    if (currentPage < pages.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="bg-white rounded-t-lg shadow-lg p-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <ChefHat className="w-8 h-8 text-amber-600" />
+            <div>
+              <h1 className="text-xl font-bold text-gray-800">Beyond Kibble Recipe Guide</h1>
+              <p className="text-sm text-gray-500">
+                Page {currentPage + 1} of {pages.length}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => window.print()}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+          >
+            <Printer className="w-4 h-4" />
+            Print
+          </button>
+        </div>
+
+        {/* Book Page */}
+        <div className="bg-white shadow-lg" style={{ minHeight: '800px' }}>
+          {currentPageData.type === 'cover' && renderCover()}
+          {currentPageData.type === 'intro' && renderIntro()}
+          {currentPageData.type === 'recipe' && renderRecipe(currentPageData.content)}
+          {currentPageData.type === 'tips-intro' && renderTipsIntro()}
+          {currentPageData.type === 'tip' && renderTip(currentPageData.content)}
+          {currentPageData.type === 'conclusion' && renderConclusion()}
+        </div>
+
+        {/* Navigation */}
+        <div className="bg-white rounded-b-lg shadow-lg p-4 flex justify-between items-center">
+          <button
+            onClick={prevPage}
+            disabled={currentPage === 0}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+              currentPage === 0
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-amber-600 text-white hover:bg-amber-700'
+            }`}
+          >
+            <ChevronLeft className="w-4 h-4" />
+            Previous
+          </button>
+
+          <div className="text-sm text-gray-600">
+            {currentPageData.type === 'cover' && 'Cover'}
+            {currentPageData.type === 'intro' && 'Introduction'}
+            {currentPageData.type === 'recipe' && `Recipe: ${currentPageData.content.title}`}
+            {currentPageData.type === 'tips-intro' && 'Tips Section'}
+            {currentPageData.type === 'tip' && `Tips: ${currentPageData.content.title}`}
+            {currentPageData.type === 'conclusion' && 'Conclusion'}
+          </div>
+
+          <button
+            onClick={nextPage}
+            disabled={currentPage === pages.length - 1}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+              currentPage === pages.length - 1
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-amber-600 text-white hover:bg-amber-700'
+            }`}
+          >
+            Next
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Quick Navigation */}
+        <div className="mt-4 bg-white rounded-lg shadow-lg p-4">
+          <h3 className="font-bold text-gray-800 mb-3">Quick Navigation:</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <button
+              onClick={() => setCurrentPage(0)}
+              className="text-left px-3 py-2 bg-amber-50 hover:bg-amber-100 rounded text-sm transition-colors"
+            >
+              📖 Cover
+            </button>
+            <button
+              onClick={() => setCurrentPage(1)}
+              className="text-left px-3 py-2 bg-amber-50 hover:bg-amber-100 rounded text-sm transition-colors"
+            >
+              👋 Introduction
+            </button>
+            <button
+              onClick={() => setCurrentPage(2)}
+              className="text-left px-3 py-2 bg-green-50 hover:bg-green-100 rounded text-sm transition-colors"
+            >
+              🍗 Recipes Start
+            </button>
+            <button
+              onClick={() => setCurrentPage(20)}
+              className="text-left px-3 py-2 bg-blue-50 hover:bg-blue-100 rounded text-sm transition-colors"
+            >
+              💡 Tips Start
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RecipeEbook;
