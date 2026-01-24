@@ -9,7 +9,17 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body><!-- Amazon Promotion Banner -->
+<div class="bg-gradient-to-r from-amber-600 to-amber-700 text-white text-center py-3 px-4 shadow-md no-print">
+  <a 
+    href="https://www.amazon.com/dp/B0FTTJYRT8" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className="hover:underline font-semibold inline-flex items-center gap-2 text-sm md:text-base"
+  >
+    📚 Love these recipes? Get the complete <strong>Beyond Kibble: Abby's Story</strong> book on Amazon →
+  </a>
+</div>
     <div id="root"></div>
 
     <script type="text/babel">
@@ -696,5 +706,20 @@
 
         ReactDOM.render(<RecipeEbook />, document.getElementById('root'));
     </script>
-</body>
+</body><!-- Floating Amazon Button -->
+<a 
+  href="https://www.amazon.com/dp/B0FTTJYRT8" 
+  target="_blank" 
+  rel="noopener noreferrer"
+  class="no-print fixed bottom-6 right-6 bg-amber-600 text-white px-6 py-3 rounded-full shadow-2xl hover:bg-amber-700 hover:scale-105 transition-all duration-200 font-bold z-50 flex items-center gap-2"
+>
+  📖 Buy the Book
+</a>
+```
+
+---
+
+## 🔗 **De Amazon link om te kopiëren:**
+```
+https://www.amazon.com/dp/B0FTTJYRT8
 </html>
