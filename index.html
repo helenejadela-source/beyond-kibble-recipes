@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond Kibble - Recipe & Tips Companion</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      .recipe-card { page-break-inside: avoid; margin-bottom: 20px; }
+      body { font-size: 12pt; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const RecipeBook = () => {
+      const [currentView, setCurrentView] = useState('toc');
+      const [currentRecipe, setCurrentRecipe] = useState(null);
+      const [currentTip, setCurrentTip] = useState(null);
+
+      const recipes = [
+        {
+          id: 1,
+          category: "Daily Meals",
+          title: "Balanced Daily Bowl",
+          time: "30 minutes",
+          servings: "3-4 days",
+          ingredients: [
+            "2 lbs ground turkey or chicken",
+            "2 cups brown rice (cooked)",
+            "1 cup carrots (diced)",
+            "1 cup green beans",
+            "1/2 cup peas",
+            "2 tbsp fish oil",
+            "1 tbsp ground flaxseed"
+          ],
+          instructions: [
+            "Cook the ground meat thoroughly in a large pan",
+            "Steam vegetables until tender but not mushy",
+            "Cook rice according to package directions",
+            "Mix all ingredients together when cooled",
+            "Add fish oil and flaxseed last",
+            "Divide into portions and refrigerate"
+          ],
+          notes: "This recipe provides balanced nutrition for a 65-70 lb Labrador. Adjust portions based on your dog's size and activity level."
+        },
+        {
+          id: 2,
+          category: "Daily Meals",
+          title: "Chicken & Sweet Potato Delight",
+          time: "45 minutes",
+          servings: "4-5 days",
+          ingredients: [
+            "3 lbs chicken thighs (boneless)",
+            "2 large sweet potatoes",
+            "1 cup spinach (chopped)",
+            "1/2 cup blueberries",
+            "1 cup oatmeal (cooked)",
+            "2 tbsp coconut oil",
+            "1 tsp turmeric"
+          ],
+          instructions: [
+            "Bake chicken at 375°F for 25-30 minutes",
+            "Roast sweet potatoes until soft",
+            "Cook oatmeal according to package",
+            "Shred chicken and mash sweet potatoes",
+            "Mix in spinach, blueberries, and oatmeal",
+            "Add coconut oil and turmeric",
+            "Store in airtight containers"
+          ],
+          notes: "Sweet potatoes are excellent for digestive health. Turmeric provides anti-inflammatory benefits."
+        },
+        {
+          id: 3,
+          category: "Daily Meals",
+          title: "Beef & Veggie Mix",
+          time: "40 minutes",
+          servings: "3-4 days",
+          ingredients: [
+            "2 lbs lean ground beef",
+            "1.5 cups quinoa (cooked)",
+            "1 cup broccoli (chopped)",
+            "1 cup carrots (diced)",
+            "1/2 cup pumpkin puree",
+            "2 eggs (hard boiled, chopped)",
+            "1 tbsp olive oil"
+          ],
+          instructions: [
+            "Brown the ground beef thoroughly",
+            "Cook quinoa according to directions",
+            "Steam broccoli and carrots until tender",
+            "Hard boil and chop eggs",
+            "Combine all ingredients when cooled",
+            "Mix in pumpkin and olive oil",
+            "Portion and refrigerate"
+          ],
+          notes: "Pumpkin aids digestion and is great for Labs. Use lean beef to control fat intake."
+        },
+        {
+          id: 4,
+          category: "Weight Management",
+          title: "Lean & Green Bowl",
+          time: "35 minutes",
+          servings: "4-5 days",
+          ingredients: [
+            "2 lbs ground turkey (99% lean)",
+            "2 cups cauliflower rice",
+            "1 cup green beans",
+            "1 cup zucchini (diced)",
+            "1/2 cup cottage cheese (low-fat)",
+            "1 tbsp chia seeds",
+            "1 tsp kelp powder"
+          ],
+          instructions: [
+            "Cook turkey thoroughly without added fat",
+            "Steam cauliflower rice lightly",
+            "Cook green beans and zucchini until tender",
+            "Mix all vegetables with turkey",
+            "Add cottage cheese for protein",
+            "Sprinkle chia seeds and kelp powder",
+            "Divide into weight-appropriate portions"
+          ],
+          notes: "Perfect for Labs needing to lose weight. High protein, low calorie, very filling."
+        },
+        {
+          id: 5,
+          category: "Weight Management",
+          title: "Low-Cal Chicken Medley",
+          time: "30 minutes",
+          servings: "4 days",
+          ingredients: [
+            "2.5 lbs chicken breast (skinless)",
+            "2 cups green beans",
+            "1 cup cucumber (diced)",
+            "1 cup celery (chopped)",
+            "1/2 cup plain yogurt (non-fat)",
+            "1 tbsp apple cider vinegar",
+            "Fresh parsley"
+          ],
+          instructions: [
+            "Boil chicken breast until fully cooked",
+            "Steam green beans until crisp-tender",
+            "Dice cucumber and chop celery",
+            "Shred cooled chicken",
+            "Mix all ingredients together",
+            "Add yogurt and vinegar",
+            "Garnish with fresh parsley"
+          ],
+          notes: "Extremely low in calories but satisfying. Great for overweight Labs on a diet."
+        },
+        {
+          id: 6,
+          category: "Weight Management",
+          title: "White Fish & Veggie Light",
+          time: "25 minutes",
+          servings: "3-4 days",
+          ingredients: [
+            "2 lbs white fish (cod or tilapia)",
+            "2 cups broccoli",
+            "1 cup asparagus",
+            "1 cup bell peppers",
+            "1/2 cup pumpkin puree",
+            "1 tbsp fish oil",
+            "1 tsp spirulina"
+          ],
+          instructions: [
+            "Bake fish at 350°F for 15-20 minutes",
+            "Steam broccoli and asparagus",
+            "Dice bell peppers and sauté lightly",
+            "Flake fish when cooled",
+            "Combine all vegetables with fish",
+            "Mix in pumpkin, fish oil, and spirulina",
+            "Store in portions"
+          ],
+          notes: "Fish is low in calories but high in omega-3s. Perfect for weight loss while maintaining coat health."
+        },
+        {
+          id: 7,
+          category: "Therapeutic",
+          title: "Sensitive Stomach Soother",
+          time: "35 minutes",
+          servings: "3 days",
+          ingredients: [
+            "2 lbs ground turkey (lean)",
+            "2 cups white rice (cooked)",
+            "1 cup pumpkin puree",
+            "1/2 cup plain yogurt",
+            "1 tbsp slippery elm powder",
+            "1 tsp ginger (fresh, minced)",
+            "Bone broth (low sodium)"
+          ],
+          instructions: [
+            "Cook turkey thoroughly and drain fat",
+            "Prepare white rice (slightly overcooked)",
+            "Mix turkey with rice while warm",
+            "Stir in pumpkin puree",
+            "Add yogurt for probiotics",
+            "Mix in slippery elm and ginger",
+            "Add bone broth for moisture if needed"
+          ],
+          notes: "Gentle on sensitive stomachs. Pumpkin and slippery elm help soothe digestive issues."
+        },
+        {
+          id: 8,
+          category: "Therapeutic",
+          title: "Joint Support Bowl",
+          time: "50 minutes",
+          servings: "4 days",
+          ingredients: [
+            "2 lbs wild-caught salmon",
+            "1.5 cups brown rice",
+            "1 cup sweet potato",
+            "1/2 cup broccoli",
+            "2 tbsp glucosamine powder",
+            "1 tbsp turmeric",
+            "2 tbsp bone broth gelatin"
+          ],
+          instructions: [
+            "Bake salmon at 375°F until cooked through",
+            "Cook brown rice thoroughly",
+            "Roast sweet potato and steam broccoli",
+            "Flake salmon carefully (remove any bones)",
+            "Mix all ingredients together",
+            "Add glucosamine, turmeric, and gelatin",
+            "Ensure even distribution of supplements"
+          ],
+          notes: "Omega-3s from salmon and glucosamine support joint health. Great for Labs with hip issues."
+        },
+        {
+          id: 9,
+          category: "Therapeutic",
+          title: "Coat & Skin Health Mix",
+          time: "40 minutes",
+          servings: "4-5 days",
+          ingredients: [
+            "2 lbs mackerel or sardines",
+            "1 cup quinoa (cooked)",
+            "1 cup carrots",
+            "1/2 cup spinach",
+            "2 tbsp hemp oil",
+            "1 tbsp ground flaxseed",
+            "1 tsp zinc supplement"
+          ],
+          instructions: [
+            "Cook fish thoroughly (canned works too)",
+            "Prepare quinoa according to package",
+            "Steam carrots and wilt spinach",
+            "Flake fish and remove any bones",
+            "Combine all ingredients",
+            "Mix in hemp oil, flaxseed, and zinc",
+            "Store properly to maintain freshness"
+          ],
+          notes: "Rich in omega fatty acids for healthy coat and skin. Zinc supports immune function."
+        },
+        {
+          id: 10,
+          category: "Treats",
+          title: "Peanut Butter Training Bites",
+          time: "25 minutes",
+          servings: "50+ treats",
+          ingredients: [
+            "2 cups whole wheat flour",
+            "1/2 cup natural peanut butter (no xylitol)",
+            "2 eggs",
+            "1/4 cup water",
+            "1 tbsp honey (optional)",
+            "1 tsp cinnamon"
+          ],
+          instructions: [
+            "Preheat oven to 350°F",
+            "Mix peanut butter and eggs",
+            "Add flour and cinnamon",
+            "Add water gradually to form dough",
+            "Roll out and cut into small training-size pieces",
+            "Bake for 15-20 minutes until crispy",
+            "Cool completely before storing"
+          ],
+          notes: "Perfect size for training sessions. Always check peanut butter doesn't contain xylitol!"
+        },
+        {
+          id: 11,
+          category: "Treats",
+          title: "Sweet Potato Chews",
+          time: "3 hours",
+          servings: "20-30 chews",
+          ingredients: [
+            "3 large sweet potatoes",
+            "1 tbsp coconut oil (optional)"
+          ],
+          instructions: [
+            "Preheat oven to 250°F",
+            "Wash and slice sweet potatoes 1/4 inch thick",
+            "Arrange on baking sheets",
+            "Brush lightly with coconut oil if desired",
+            "Bake for 2.5-3 hours, flipping halfway",
+            "Cool completely",
+            "Store in airtight container"
+          ],
+          notes: "Long-lasting, healthy chew. Labs love these! Watch for freshness - consume within 2 weeks."
+        },
+        {
+          id: 12,
+          category: "Treats",
+          title: "Frozen Yogurt Bites",
+          time: "10 minutes + freezing",
+          servings: "30+ treats",
+          ingredients: [
+            "2 cups plain yogurt (no xylitol)",
+            "1 cup blueberries",
+            "1/2 cup banana (mashed)",
+            "1 tbsp honey",
+            "Silicone mold or ice cube tray"
+          ],
+          instructions: [
+            "Blend yogurt, blueberries, and banana",
+            "Add honey and mix well",
+            "Pour into silicone molds",
+            "Freeze for at least 4 hours",
+            "Pop out and store in freezer bag",
+            "Give as occasional cool treats"
+          ],
+          notes: "Perfect for hot days! Great for Labs who love to chew. Portion control is important."
+        },
+        {
+          id: 13,
+          category: "Special Occasion",
+          title: "Birthday 'Pupcake'",
+          time: "45 minutes",
+          servings: "1 celebration cake",
+          ingredients: [
+            "1 cup whole wheat flour",
+            "1 tsp baking powder",
+            "1/4 cup peanut butter",
+            "1/4 cup applesauce",
+            "1 egg",
+            "1/3 cup honey",
+            "Plain yogurt frosting",
+            "Dog-safe decorations"
+          ],
+          instructions: [
+            "Preheat oven to 350°F",
+            "Mix dry ingredients together",
+            "Blend wet ingredients separately",
+            "Combine wet and dry ingredients",
+            "Pour into small cake pan",
+            "Bake 25-30 minutes until done",
+            "Cool completely and frost with yogurt"
+          ],
+          notes: "Special treat for celebrations only! Rich and should be given in moderation."
+        },
+        {
+          id: 14,
+          category: "Special Occasion",
+          title: "Thanksgiving Feast",
+          time: "1 hour",
+          servings: "1 special meal",
+          ingredients: [
+            "1 lb turkey breast",
+            "1/2 cup sweet potato",
+            "1/4 cup green beans",
+            "1/4 cup cranberries (fresh)",
+            "2 tbsp pumpkin puree",
+            "Bone broth for moisture"
+          ],
+          instructions: [
+            "Roast turkey breast thoroughly",
+            "Bake sweet potato until soft",
+            "Steam green beans",
+            "Cook cranberries lightly (no sugar)",
+            "Shred turkey when cooled",
+            "Mix all ingredients with pumpkin",
+            "Add bone broth to desired consistency"
+          ],
+          notes: "A special holiday meal! Still nutritious but extra delicious. One-time celebration only."
+        },
+        {
+          id: 15,
+          category: "Special Occasion",
+          title: "Summer BBQ Bowl",
+          time: "40 minutes",
+          servings: "1 special meal",
+          ingredients: [
+            "1 burger patty (lean beef)",
+            "1/4 cup grilled vegetables",
+            "2 tbsp cottage cheese",
+            "1 tbsp blueberries",
+            "Small amount of watermelon",
+            "Fresh parsley garnish"
+          ],
+          instructions: [
+            "Grill burger patty thoroughly (no seasoning)",
+            "Grill dog-safe vegetables",
+            "Chop everything into bite-size pieces",
+            "Mix burger and vegetables",
+            "Top with cottage cheese",
+            "Add blueberries and watermelon",
+            "Garnish with parsley"
+          ],
+          notes: "Perfect for summer gatherings! A special treat - not for regular feeding."
+        },
+        {
+          id: 16,
+          category: "Quick & Easy",
+          title: "5-Minute Emergency Bowl",
+          time: "5 minutes",
+          servings: "1 meal",
+          ingredients: [
+            "1 can tuna in water",
+            "1/2 cup cooked rice (leftover)",
+            "1/4 cup frozen peas",
+            "1 tbsp olive oil",
+            "Sprinkle of dried parsley"
+          ],
+          instructions: [
+            "Drain tuna thoroughly",
+            "Microwave peas for 1 minute",
+            "Mix rice with tuna",
+            "Add peas when cooled",
+            "Drizzle with olive oil",
+            "Sprinkle parsley and serve"
+          ],
+          notes: "For those crazy busy days! Not balanced for long-term but fine occasionally."
+        },
+        {
+          id: 17,
+          category: "Quick & Easy",
+          title: "Scrambled Breakfast",
+          time: "10 minutes",
+          servings: "1 meal",
+          ingredients: [
+            "2 eggs",
+            "1/4 cup cooked oatmeal",
+            "2 tbsp cottage cheese",
+            "Handful of spinach",
+            "1 tsp coconut oil"
+          ],
+          instructions: [
+            "Heat coconut oil in pan",
+            "Scramble eggs thoroughly",
+            "Wilt spinach in the eggs",
+            "Mix with oatmeal when cooled",
+            "Top with cottage cheese",
+            "Serve at room temperature"
+          ],
+          notes: "Quick protein-packed meal. Great for mornings when you're running late!"
+        },
+        {
+          id: 18,
+          category: "Quick & Easy",
+          title: "Leftover Remix",
+          time: "15 minutes",
+          servings: "1-2 meals",
+          ingredients: [
+            "1 cup cooked chicken (leftover)",
+            "1/2 cup cooked vegetables",
+            "1/4 cup brown rice or quinoa",
+            "1 tbsp plain yogurt",
+            "1 tsp fish oil",
+            "Fresh herbs"
+          ],
+          instructions: [
+            "Shred or chop leftover chicken",
+            "Chop any leftover vegetables",
+            "Mix with grains",
+            "Add yogurt for creaminess",
+            "Stir in fish oil",
+            "Garnish with fresh herbs"
+          ],
+          notes: "Perfect way to use dinner leftovers! Ensure all ingredients are dog-safe."
+        }
+      ];
+
+      const tips = [
+        {
+          id: 1,
+          title: "Batch Cooking & Storage",
+          icon: "🍱",
+          content: `**Smart Meal Prep:**
+• Cook 3-4 days worth at a time
+• Use glass containers for storage
+• Label with date and contents
+• Refrigerate up to 4 days
+• Freeze portions for up to 2 months
+• Thaw overnight in refrigerator
+
+**Storage Tips:**
+• Keep separate containers for each meal type
+• Use freezer-safe containers
+• Remove air before freezing
+• Portion before freezing for easy serving`
+        },
+        {
+          id: 2,
+          title: "Transitioning to Fresh Food",
+          icon: "🔄",
+          content: `**Week 1:** 75% old food, 25% new
+**Week 2:** 50% old food, 50% new
+**Week 3:** 25% old food, 75% new
+**Week 4:** 100% new food
+
+**Watch for:**
+• Changes in stool consistency
+• Energy levels
+• Coat condition
+• Overall enthusiasm
+• Any digestive upset
+
+**Tips:**
+• Go slower if needed
+• Some Labs have sensitive stomachs
+• Keep a food diary
+• Stay consistent with meal times`
+        },
+        {
+          id: 3,
+          title: "Portion Sizing Guide",
+          icon: "⚖️",
+          content: `**Daily Amount (Adult Lab):**
+• 55-65 lbs: 2.5-3 cups
+• 65-75 lbs: 3-3.5 cups
+• 75-85 lbs: 3.5-4 cups
+• 85+ lbs: 4-4.5 cups
+
+**Factors to Consider:**
+• Activity level (adjust ±20%)
+• Age (seniors need less)
+• Weight goals
+• Individual metabolism
+• Weather/season
+
+**Signs of Proper Feeding:**
+• Visible waist from above
+• Tucked abdomen from side
+• Ribs felt easily but not visible
+• Healthy energy levels`
+        },
+        {
+          id: 4,
+          title: "Essential Supplements",
+          icon: "💊",
+          content: `**Core Supplements:**
+• Fish oil (omega-3): 1000mg per 20 lbs
+• Glucosamine: 500mg per 25 lbs (seniors)
+• Calcium: Follow vet guidance
+• Multivitamin: Age-appropriate
+
+**Optional Boosters:**
+• Probiotics for digestion
+• Turmeric for joints
+• Kelp for minerals
+• Spirulina for immunity
+
+**Important:**
+• Consult your vet first
+• Start one supplement at a time
+• Watch for reactions
+• Buy quality brands
+• Store properly`
+        },
+        {
+          id: 5,
+          title: "Foods to AVOID",
+          icon: "⚠️",
+          content: `**TOXIC - Never Feed:**
+• Chocolate
+• Grapes/Raisins
+• Onions/Garlic
+• Xylitol (artificial sweetener)
+• Macadamia nuts
+• Avocado
+• Alcohol
+
+**Potentially Harmful:**
+• Cooked bones (splinter risk)
+• High-fat foods
+• Raw yeast dough
+• Caffeine
+• Salt in excess
+• Raw eggs (biotin concern)
+
+**Always Check:**
+• Peanut butter for xylitol
+• "Sugar-free" products
+• Seasoned meats
+• Human medications`
+        },
+        {
+          id: 6,
+          title: "Food Safety Practices",
+          icon: "🧼",
+          content: `**Preparation:**
+• Wash hands before and after
+• Use separate cutting boards
+• Clean all utensils thoroughly
+• Keep raw meats separate
+• Thaw safely in refrigerator
+
+**Storage:**
+• Refrigerate within 2 hours
+• Don't leave food in bowl all day
+• Wash bowls after each meal
+• Replace water frequently
+• Check dates on ingredients
+
+**Cooking:**
+• Cook all meats thoroughly
+• No pink in chicken/turkey
+• Cool before serving
+• Temperature safety matters`
+        },
+        {
+          id: 7,
+          title: "Reading Your Lab's Signals",
+          icon: "👀",
+          content: `**Healthy Signs:**
+• Bright, clear eyes
+• Shiny coat
+• Good energy
+• Regular bathroom habits
+• Healthy appetite
+• Pink gums
+• Good breath
+
+**Concerning Signs:**
+• Dull coat
+• Low energy
+• Digestive issues
+• Loss of appetite
+• Weight changes
+• Excessive thirst
+• Bad breath
+
+**When to Call Vet:**
+• Sudden changes
+• Vomiting/diarrhea >24 hours
+• Refusing food >24 hours
+• Lethargy
+• Any concerns!`
+        },
+        {
+          id: 8,
+          title: "Meal Planning Strategy",
+          icon: "📅",
+          content: `**Weekly Planning:**
+• Choose 2-3 recipes to rotate
+• Prep on Sunday for the week
+• Include variety in proteins
+• Balance vegetables
+• Plan treat-making sessions
+
+**Shopping List:**
+• Buy proteins on sale
+• Stock pantry staples
+• Keep frozen vegetables handy
+• Buy supplements in bulk
+• Plan for special occasions
+
+**Time Management:**
+• Batch cook and freeze
+• Use slow cooker
+• Prep vegetables ahead
+• Cook during own meal prep
+• Make treats monthly`
+        },
+        {
+          id: 9,
+          title: "Budget-Friendly Tips",
+          icon: "💰",
+          content: `**Save Money:**
+• Buy meat on sale, freeze
+• Use less expensive proteins
+• Grow dog-safe herbs
+• Buy vegetables in season
+• Purchase supplements online
+• Share bulk purchases
+
+**Economical Proteins:**
+• Ground turkey (sales)
+• Chicken thighs
+• Canned fish
+• Eggs
+• Organ meats (small amounts)
+
+**Stretching Meals:**
+• Use more grains
+• Add affordable vegetables
+• Make treats yourself
+• Buy in bulk when possible`
+        },
+        {
+          id: 10,
+          title: "Treats & Training",
+          icon: "🦴",
+          content: `**Treat Guidelines:**
+• Max 10% of daily calories
+• Use for training/rewards
+• Make small training sizes
+• Count treats in daily total
+• Choose healthy options
+
+**Training Treats:**
+• Tiny pieces work best
+• Soft for quick consumption
+• Easy to carry
+• Low odor for indoor use
+• Consistent size
+
+**Homemade Benefits:**
+• Control ingredients
+• No preservatives
+• More cost effective
+• Know what's inside
+• Fresh and healthy
+
+**Storage:**
+• Keep treats fresh
+• Refrigerate if needed
+• Check for spoilage
+• Use within 2 weeks`
+        },
+        {
+          id: 11,
+          title: "Age-Specific Nutrition",
+          icon: "🐕",
+          content: `**Puppies (8wks-1yr):**
+• Feed 3-4 times daily
+• Higher calories needed
+• More calcium/phosphorus
+• Smaller portions
+• Extra supervision
+
+**Adults (1-7yrs):**
+• Feed 2 times daily
+• Maintain healthy weight
+• Regular exercise
+• Monitor portions
+• Annual vet checks
+
+**Seniors (7+yrs):**
+• May need less food
+• Joint support supplements
+• Easier to digest meals
+• More frequent vet visits
+• Adjust for activity level
+
+**Special Needs:**
+• Pregnant/nursing: higher calories
+• Active dogs: more protein
+• Working dogs: increased portions`
+        },
+        {
+          id: 12,
+          title: "Working with Your Vet",
+          icon: "🏥",
+          content: `**Before Starting:**
+• Discuss your plan
+• Get bloodwork done
+• Address any concerns
+• Get portion recommendations
+• Ask about supplements
+
+**Regular Check-ins:**
+• Monitor weight monthly
+• Annual blood panels
+• Discuss any changes
+• Update as needed
+• Keep records
+
+**What to Track:**
+• Weight trends
+• Energy levels
+• Coat condition
+• Bathroom habits
+• Any reactions
+• Appetite changes
+
+**Bring to Appointments:**
+• Food diary
+• Ingredient lists
+• Supplement info
+• Questions prepared
+• Recent observations`
+        }
+      ];
+
+      const renderTOC = () => (
+        <div className="max-w-4xl mx-auto p-8 bg-amber-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+            <h1 className="text-4xl font-bold text-amber-900 mb-2 text-center">Beyond Kibble</h1>
+            <h2 className="text-2xl text-amber-700 mb-6 text-center italic">Recipe & Tips Companion</h2>
+            <p className="text-center text-gray-600 mb-8 italic">Fresh Food Recipes for Your Labrador</p>
+            
+            <div className="border-t-2 border-amber-300 pt-6">
+              <h3 className="text-xl font-semibold text-amber-800 mb-4">📖 Recipes by Category</h3>
+              
+              {["Daily Meals", "Weight Management", "Therapeutic", "Treats", "Special Occasion", "Quick & Easy"].map(category => {
+                const categoryRecipes = recipes.filter(r => r.category === category);
+                return (
+                  <div key={category} className="mb-4">
+                    <h4 className="font-semibold text-amber-700 mb-2">{category}</h4>
+                    <ul className="ml-4 space-y-1">
+                      {categoryRecipes.map(recipe => (
+                        <li key={recipe.id}>
+                          <button
+                            onClick={() => {
+                              setCurrentRecipe(recipe);
+                              setCurrentView('recipe');
+                            }}
+                            className="text-blue-600 hover:text-blue-800 hover:underline text-left"
+                          >
+                            {recipe.title}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+
+              <div className="border-t-2 border-amber-300 mt-6 pt-6">
+                <h3 className="text-xl font-semibold text-amber-800 mb-4">💡 Essential Tips</h3>
+                <ul className="ml-4 space-y-1">
+                  {tips.map(tip => (
+                    <li key={tip.id}>
+                      <button
+                        onClick={() => {
+                          setCurrentTip(tip);
+                          setCurrentView('tip');
+                        }}
+                        className="text-blue-600 hover:text-blue-800 hover:underline text-left"
+                      >
+                        {tip.icon} {tip.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+
+      const renderRecipe = () => (
+        <div className="max-w-4xl mx-auto p-8 bg-amber-50">
+          <div className="bg-white rounded-lg shadow-lg p-8 recipe-card">
+            <div className="mb-6">
+              <span className="text-sm text-amber-600 font-semibold">{currentRecipe.category}</span>
+              <h2 className="text-3xl font-bold text-amber-900 mt-1">{currentRecipe.title}</h2>
+              <div className="flex gap-6 mt-4 text-gray-600">
+                <span>⏱️ {currentRecipe.time}</span>
+                <span>🍽️ {currentRecipe.servings}</span>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold text-amber-800 mb-3">Ingredients</h3>
+              <ul className="space-y-2">
+                {currentRecipe.ingredients.map((ingredient, idx) => (
+                  <li key={idx} className="flex items-start">
+                    <span className="text-amber-600 mr-2">•</span>
+                    <span>{ingredient}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold text-amber-800 mb-3">Instructions</h3>
+              <ol className="space-y-3">
+                {currentRecipe.instructions.map((instruction, idx) => (
+                  <li key={idx} className="flex items-start">
+                    <span className="font-semibold text-amber-600 mr-3">{idx + 1}.</span>
+                    <span>{instruction}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {currentRecipe.notes && (
+              <div className="bg-amber-50 p-4 rounded-lg border-l-4 border-amber-400">
+                <p className="text-sm"><strong>Note:</strong> {currentRecipe.notes}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+
+      const renderTip = () => (
+        <div className="max-w-4xl mx-auto p-8 bg-amber-50">
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h2 className="text-3xl font-bold text-amber-900 mb-4">
+              {currentTip.icon} {currentTip.title}
+            </h2>
+            <div className="prose max-w-none">
+              {currentTip.content.split('\n').map((paragraph, idx) => {
+                if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
+                  return <h3 key={idx} className="text-xl font-semibold text-amber-800 mt-4 mb-2">{paragraph.replace(/\*\*/g, '')}</h3>;
+                } else if (paragraph.startsWith('•')) {
+                  return <li key={idx} className="ml-6 mb-1">{paragraph.substring(1).trim()}</li>;
+                } else if (paragraph.trim()) {
+                  return <p key={idx} className="mb-2">{paragraph}</p>;
+                }
+                return null;
+              })}
+            </div>
+          </div>
+        </div>
+      );
+
+      return (
+        <div className="min-h-screen bg-amber-50">
+          {/* Amazon Promotion Banner - Sempre visível no topo */}
+          <div className="bg-gradient-to-r from-amber-600 to-amber-700 text-white text-center py-3 px-4 shadow-md no-print">
+            <a 
+              href="https://www.amazon.com/dp/B0FTTJYRT8" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:underline font-semibold inline-flex items-center gap-2 text-sm md:text-base"
+            >
+              📚 Love these recipes? Get the complete <strong>Beyond Kibble: Abby's Story</strong> book on Amazon →
+            </a>
+          </div>
+
+          {/* Navigation */}
+          <div className="bg-white shadow-md p-4 no-print sticky top-0 z-40">
+            <div className="max-w-4xl mx-auto flex justify-between items-center">
+              <button
+                onClick={() => setCurrentView('toc')}
+                className="text-amber-700 hover:text-amber-900 font-semibold"
+              >
+                ← Table of Contents
+              </button>
+              <button
+                onClick={() => window.print()}
+                className="bg-amber-600 text-white px-4 py-2 rounded hover:bg-amber-700"
+              >
+                🖨️ Print
+              </button>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="py-8">
+            {currentView === 'toc' && renderTOC()}
+            {currentView === 'recipe' && renderRecipe()}
+            {currentView === 'tip' && renderTip()}
+          </div>
+
+          {/* Floating Amazon Button - Sempre visível no canto */}
+          <a 
+            href="https://www.amazon.com/dp/B0FTTJYRT8" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="no-print fixed bottom-6 right-6 bg-amber-600 text-white px-6 py-3 rounded-full shadow-2xl hover:bg-amber-700 hover:scale-105 transition-all duration-200 font-bold z-50 flex items-center gap-2"
+          >
+            📖 Buy the Book
+          </a>
+
+          {/* Footer */}
+          <footer className="bg-white border-t border-amber-200 py-6 mt-12">
+            <div className="max-w-4xl mx-auto px-4 text-center text-gray-600 text-sm">
+              <p className="mb-2">Beyond Kibble Recipe & Tips Companion</p>
+              <p>Always consult your veterinarian before making significant changes to your dog's diet.</p>
+            </div>
+          </footer>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<RecipeBook />, document.getElementById('root'));
+  </script>
+</body>
+</html>
